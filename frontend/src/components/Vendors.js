@@ -1,6 +1,6 @@
-// frontend/src/components/Vendors.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import '../css/Vendors.css';
 
 const Vendors = () => {
   const [vendorId, setVendorId] = useState('');
@@ -18,10 +18,10 @@ const Vendors = () => {
   };
 
   return (
-    <div>
+    <div className="vendor-container">
       <h2>Create Vendor</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmit} className="vendor-form">
+        <div className="form-group">
           <label>Vendor ID:</label>
           <input
             type="text"
@@ -30,7 +30,7 @@ const Vendors = () => {
             required
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Password:</label>
           <input
             type="password"
@@ -41,7 +41,7 @@ const Vendors = () => {
         </div>
         <button type="submit">Create Vendor</button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className="vendor-message">{message}</p>}
     </div>
   );
 };

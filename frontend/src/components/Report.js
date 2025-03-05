@@ -1,4 +1,3 @@
-// frontend/src/components/Report.js
 import React from 'react';
 
 const Report = () => {
