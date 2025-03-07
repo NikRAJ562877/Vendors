@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
 
 const OrderSchema = new mongoose.Schema({
-  orderNumber: { type: String, required: true },
-  customerName: { type: String },
-  date: { type: Date },
-  amount: { type: Number }
+  dlrCode: { type: String, required: true },
+  zone: { type: String },
+  boDlrNo: { type: String },
+  partNo: { type: String },
+  orderNo: { type: String },
+  po: { type: String }
 });
 
 module.exports = mongoose.model('Order', OrderSchema);

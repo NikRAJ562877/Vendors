@@ -8,20 +8,35 @@ const Order = require('../models/Order');
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// POST /api/orders/upload - Upload and extract Excel data
+// POST /api/orders/upload - Extract and save Excel data
 router.post('/upload', upload.single('file'), async (req, res) => {
   try {
     const file = req.file;
     if (!file) return res.status(400).json({ error: 'No file provided' });
+
     const workbook = xlsx.read(file.buffer, { type: 'buffer' });
     const sheetName = workbook.SheetNames[0];
     const sheet = workbook.Sheets[sheetName];
     const data = xlsx.utils.sheet_to_json(sheet);
-    res.json({ data });
+
+    // Map to extract only the desired fields (adjust keys as per your Excel headers)
+    const extractedData = data.map((row) => ({
+      dlrCode: row["dlr code/dle code"] || "",
+      zone: row["zone"] || "",
+      boDlrNo: row["BO dlr no./BO"] || "",
+      partNo: row["Part no."] || "",
+      orderNo: row["order no./ New order no."] || "",
+      po: row["PO"] || ""
+    }));
+
+    // Save extracted data into the database
+    const insertedOrders = await Order.insertMany(extractedData);
+    res.json({ data: insertedOrders });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 // GET /api/orders - Retrieve all orders
 router.get('/', async (req, res) => {

@@ -1,20 +1,43 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../css/Order.css";
+
 const Orders = () => {
   const [file, setFile] = useState(null);
   const [orders, setOrders] = useState([]);
-  const [filteredOrders, setFilteredOrders] = useState([]);
-  const [editableRows, setEditableRows] = useState({});
-  const [selectedRows, setSelectedRows] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
+  const [editableRows, setEditableRows] = useState({});
+  
+  // Define fixed headers for the desired fields
+  const headers = [
+    { key: "dlrCode", label: "DLR CODE" },
+    { key: "zone", label: "ZONE" },
+    { key: "boDlrNo", label: "BO DLR NO." },
+    { key: "partNo", label: "Part No." },
+    { key: "orderNo", label: "Order No./New Order No." },
+    { key: "po", label: "PO" }
+  ];
 
-  // Handle File Selection
+    // Fetch orders from MongoDB on mount (data persists)
+    const fetchOrders = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/orders");
+        setOrders(res.data);
+      } catch (err) {
+        console.error("Error fetching orders:", err);
+      }
+    };
+  
+    useEffect(() => {
+      fetchOrders();
+    }, []);
+
+  // Handle file selection from the input element
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
-  // Upload File & Fetch Data
+  // Upload the Excel file and extract only the desired fields
   const uploadFile = async () => {
     if (!file) return;
     const formData = new FormData();
@@ -22,8 +45,16 @@ const Orders = () => {
     try {
       const res = await axios.post("http://localhost:5000/api/orders/upload", formData);
       if (res.data && Array.isArray(res.data.data)) {
-        setOrders(res.data.data);
-        setFilteredOrders(res.data.data); 
+        // Map the response to extract only the desired fields (adjust keys as needed)
+        const extractedData = res.data.data.map((row) => ({
+          dlrCode: row["DLR CODE"] || "",
+          zone: row["ZONE"] || "",
+          boDlrNo: row["BO DLR NO."] || "",
+          partNo: row["Part no."] || "",
+          orderNo: row["Order no."] || "",
+          po: row["PO"] || ""
+        }));
+        setOrders(extractedData);
       } else {
         console.error("Invalid API response format", res.data);
       }
@@ -32,51 +63,49 @@ const Orders = () => {
     }
   };
 
-  // Handle Checkbox Selection
-  const handleCheckboxChange = (index) => {
+  // Toggle edit mode for a specific row
+  const toggleEditRow = (index) => {
     setEditableRows((prev) => ({ ...prev, [index]: !prev[index] }));
-    setSelectedRows((prev) => ({ ...prev, [index]: !prev[index] }));
   };
 
-  // Handle Input Change
-  const handleInputChange = (index, field, value) => {
-    const updatedOrders = [...filteredOrders];
-    updatedOrders[index][field] = value;
-    setFilteredOrders(updatedOrders);
+  // Handle change in an input for a given row and field
+  const handleInputChange = (index, key, value) => {
+    const updatedOrders = [...orders];
+    updatedOrders[index][key] = value;
+    setOrders(updatedOrders);
   };
 
-  // Handle Search Filtering
-  useEffect(() => {
-    if (!searchTerm) {
-      setFilteredOrders(orders);
-    } else {
-      const filtered = orders.filter((order) =>
-        Object.values(order)
-          .filter((val) => typeof val === "string" || typeof val === "number")
-          .some((value) => value.toString().toLowerCase().includes(searchTerm.toLowerCase()))
-      );
-      setFilteredOrders(filtered);
-    }
-  }, [searchTerm, orders]);
-
-  // Handle "Send to Vendor" Action
-  const sendToVendor = () => {
-    const selectedOrders = filteredOrders.filter((_, index) => selectedRows[index]);
-    console.log("Orders sent to vendor:", selectedOrders);
-    alert(`Sent ${selectedOrders.length} orders to vendor!`);
+  // Delete a row from orders
+  const deleteRow = (index) => {
+    const updatedOrders = orders.filter((_, i) => i !== index);
+    setOrders(updatedOrders);
   };
+
+  // Create a new empty row with only the desired fields
+  const createNewRow = () => {
+    const newRow = {};
+    headers.forEach((header) => {
+      newRow[header.key] = "";
+    });
+    setOrders([...orders, newRow]);
+  };
+
+  // Filter orders based on searchTerm across the specified fields
+  const filteredOrders = orders.filter((order) =>
+    headers.some((header) =>
+      order[header.key].toString().toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  );
 
   return (
     <div className="orders-container">
       <h2>Order Management</h2>
 
-      {/* Upload & Send Section */}
+      {/* Upload and New Row Controls */}
       <div className="upload-section">
         <input type="file" accept=".xlsx, .xls" onChange={handleFileChange} />
         <button onClick={uploadFile}>Upload</button>
-        {Object.values(selectedRows).some((isSelected) => isSelected) && (
-          <button className="send-btn" onClick={sendToVendor}>Send to Vendor</button>
-        )}
+        <button onClick={createNewRow}>New Row</button>
       </div>
 
       {/* Search Filter */}
@@ -84,7 +113,7 @@ const Orders = () => {
         <div className="search-container">
           <input
             type="text"
-            placeholder="Search by Order ID, Product Name, or Vendor..."
+            placeholder="Search orders..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -97,44 +126,38 @@ const Orders = () => {
           <table>
             <thead>
               <tr>
-                <th>Select</th>
-                {Object.keys(filteredOrders[0]).map((key) => (
-                  <th key={key}>{key}</th>
-                ))}
                 <th>Actions</th>
+                {headers.map((header) => (
+                  <th key={header.key}>{header.label}</th>
+                ))}
               </tr>
             </thead>
             <tbody>
               {filteredOrders.map((order, index) => (
                 <tr key={index}>
                   <td>
-                    <input
-                      type="checkbox"
-                      checked={selectedRows[index] || false}
-                      onChange={() => handleCheckboxChange(index)}
-                    />
+                    <button onClick={() => toggleEditRow(index)}>
+                      {editableRows[index] ? "Save" : "Edit"}
+                    </button>
+                    <button onClick={() => deleteRow(index)} className="delete-btn">
+                      Delete
+                    </button>
                   </td>
-                  {Object.entries(order).map(([key, val]) => (
-                    <td key={key}>
+                  {headers.map((header) => (
+                    <td key={header.key}>
                       {editableRows[index] ? (
                         <input
                           type="text"
-                          value={val || ""}
+                          value={order[header.key]}
                           onChange={(e) =>
-                            handleInputChange(index, key, e.target.value)
+                            handleInputChange(index, header.key, e.target.value)
                           }
                         />
                       ) : (
-                        val || "N/A"
+                        order[header.key] || "N/A"
                       )}
                     </td>
                   ))}
-                  <td>
-                    <button onClick={() => handleCheckboxChange(index)}>
-                      {editableRows[index] ? "Save" : "Edit"}
-                    </button>
-                    <button className="delete-btn">Delete</button>
-                  </td>
                 </tr>
               ))}
             </tbody>
@@ -145,6 +168,6 @@ const Orders = () => {
       </div>
     </div>
   );
-}; 
+};
 
-export default Orders; 
+export default Orders;
