@@ -16,7 +16,7 @@ const Orders = () => {
     { key: "DLRCODE", label: "DLR CODE" },
     { key: "DLRNAME", label: "DLRNAME" },
     { key: "Part no.", label: "Part No." },
-    { key: "QTY", label: "QTY" },
+    { key: "Qty", label: "QTY" },
     { key: "Order no.", label: "Order No./New Order No." },
     { key: "PO", label: "PO" },
     {key:"VendorsId",label:"VendorsId"}
@@ -57,7 +57,7 @@ const Orders = () => {
         "DLRCODE": row["DLRCODE"] || "",
         "DLRNAME": row["DLRNAME"] || "",
         "Part no.": row["Part no."] || "",
-        "Qty": row["QTY"] || "",
+        "Qty": row["Qty"] || "",
         "Order no.": row["Order no."] || "",
         "PO": row["PO"] || "",
         "VendorsId":row["VendorsId"]||""
@@ -111,7 +111,7 @@ const Orders = () => {
       dlrCode: order["DLRCODE"],
       dlrName: order["DLRNAME"],
       partNo: order["Part no."],
-      qty: order["QTY"],
+      qty: order["Qty"],
       orderNo: order["Order no."],
       po: order["PO"],
       VendorsId: order["VendorsId"]
