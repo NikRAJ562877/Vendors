@@ -1,99 +1,144 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import * as XLSX from "xlsx";
 import "../css/Order.css";
-
+import axios from 'axios';
 const Orders = () => {
+  // Local state
   const [file, setFile] = useState(null);
   const [orders, setOrders] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [editableRows, setEditableRows] = useState({});
-  
-  // Define fixed headers for the desired fields
+  const [selectedRows, setSelectedRows] = useState({});
+  const [vendorId, setVendorId] = useState("");
+
+  // Fixed headers (keys exactly as used in your Excel file and display labels)
   const headers = [
-    { key: "dlrCode", label: "DLR CODE" },
-    { key: "zone", label: "ZONE" },
-    { key: "boDlrNo", label: "BO DLR NO." },
-    { key: "partNo", label: "Part No." },
-    { key: "orderNo", label: "Order No./New Order No." },
-    { key: "po", label: "PO" }
+    { key: "DLRCODE", label: "DLR CODE" },
+    { key: "DLRNAME", label: "DLRNAME" },
+    { key: "Part no.", label: "Part No." },
+    { key: "QTY", label: "QTY" },
+    { key: "Order no.", label: "Order No./New Order No." },
+    { key: "PO", label: "PO" },
+    {key:"VendorsId",label:"VendorsId"}
   ];
 
-    // Fetch orders from MongoDB on mount (data persists)
-    const fetchOrders = async () => {
-      try {
-        const res = await axios.get("http://localhost:5000/api/orders");
-        setOrders(res.data);
-      } catch (err) {
-        console.error("Error fetching orders:", err);
-      }
-    };
-  
-    useEffect(() => {
-      fetchOrders();
-    }, []);
-
-  // Handle file selection from the input element
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
-
-  // Upload the Excel file and extract only the desired fields
-  const uploadFile = async () => {
-    if (!file) return;
-    const formData = new FormData();
-    formData.append("file", file);
-    try {
-      const res = await axios.post("http://localhost:5000/api/orders/upload", formData);
-      if (res.data && Array.isArray(res.data.data)) {
-        // Map the response to extract only the desired fields (adjust keys as needed)
-        const extractedData = res.data.data.map((row) => ({
-          dlrCode: row["DLR CODE"] || "",
-          zone: row["ZONE"] || "",
-          boDlrNo: row["BO DLR NO."] || "",
-          partNo: row["Part no."] || "",
-          orderNo: row["Order no."] || "",
-          po: row["PO"] || ""
-        }));
-        setOrders(extractedData);
-      } else {
-        console.error("Invalid API response format", res.data);
-      }
-    } catch (err) {
-      console.error("Error uploading file", err);
+  // Load orders from localStorage on mount
+  useEffect(() => {
+    const savedOrders = localStorage.getItem("orders");
+    if (savedOrders) {
+      setOrders(JSON.parse(savedOrders));
     }
+  }, []);
+
+  // Update localStorage whenever orders change
+  useEffect(() => {
+    localStorage.setItem("orders", JSON.stringify(orders));
+  }, [orders]);
+
+  // Handle file selection from input
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    console.log("Selected file:", selectedFile);
+    setFile(selectedFile);
   };
 
-  // Toggle edit mode for a specific row
+  // Upload file: parse Excel on client-side and update orders state
+  const uploadFile = () => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: "array" });
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      const jsonData = XLSX.utils.sheet_to_json(sheet);
+      // Map to extract only the desired fields (keys must match exactly)
+      const extractedData = jsonData.map((row) => ({
+        "DLRCODE": row["DLRCODE"] || "",
+        "DLRNAME": row["DLRNAME"] || "",
+        "Part no.": row["Part no."] || "",
+        "Qty": row["QTY"] || "",
+        "Order no.": row["Order no."] || "",
+        "PO": row["PO"] || "",
+        "VendorsId":row["VendorsId"]||""
+      }));
+      setOrders(extractedData);
+    };
+    reader.readAsArrayBuffer(file);
+  };
+
+  // Toggle edit mode for a row
   const toggleEditRow = (index) => {
     setEditableRows((prev) => ({ ...prev, [index]: !prev[index] }));
   };
 
-  // Handle change in an input for a given row and field
+  // Handle input change for a row and field
   const handleInputChange = (index, key, value) => {
     const updatedOrders = [...orders];
     updatedOrders[index][key] = value;
     setOrders(updatedOrders);
   };
 
-  // Delete a row from orders
+  // Delete a row (update local state)
   const deleteRow = (index) => {
-    const updatedOrders = orders.filter((_, i) => i !== index);
-    setOrders(updatedOrders);
+    setOrders((prev) => prev.filter((_, i) => i !== index));
   };
 
-  // Create a new empty row with only the desired fields
+  // Create a new row (set default values; note "DLR CODE" is required so provide a default)
   const createNewRow = () => {
     const newRow = {};
     headers.forEach((header) => {
-      newRow[header.key] = "";
+      // For required field "DLR CODE", we provide a temporary value if empty.
+      newRow[header.key] = header.key === "DLR CODE" ? "TEMP" : "";
     });
-    setOrders([...orders, newRow]);
+    setOrders((prev) => [...prev, newRow]);
+    setEditableRows((prev) => ({ ...prev, [orders.length]: true }));
   };
 
-  // Filter orders based on searchTerm across the specified fields
+  // Handle checkbox selection for each row
+  const handleCheckboxChange = (index) => {
+    setSelectedRows((prev) => ({ ...prev, [index]: !prev[index] }));
+  };
+
+  // Send selected orders to a specific vendor (simulate sending)
+  const sendToVendor = async () => {
+    if (orders.length === 0) {
+      alert("No orders to upload.");
+      return;
+    }
+  
+    const formattedOrders = orders.map(order => ({
+      dlrCode: order["DLRCODE"],
+      dlrName: order["DLRNAME"],
+      partNo: order["Part no."],
+      qty: order["QTY"],
+      orderNo: order["Order no."],
+      po: order["PO"],
+      VendorsId: order["VendorsId"]
+    }));
+  
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/order/upload",
+        { orders: formattedOrders }, // Wrap orders inside an object
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+  
+      console.log("Response from API:", res.data);
+      alert(`Successfully uploaded ${orders.length} orders to the backend.`);
+    } catch (error) {
+      console.error("Upload failed:", error.response ? error.response.data : error);
+      alert("Failed to upload orders. Please check the server logs and try again.");
+    }
+  };
+  
+
+  // Filter orders based on search term across fixed fields
   const filteredOrders = orders.filter((order) =>
     headers.some((header) =>
-      order[header.key].toString().toLowerCase().includes(searchTerm.toLowerCase())
+      order[header.key]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
 
@@ -106,6 +151,13 @@ const Orders = () => {
         <input type="file" accept=".xlsx, .xls" onChange={handleFileChange} />
         <button onClick={uploadFile}>Upload</button>
         <button onClick={createNewRow}>New Row</button>
+      </div>
+
+      {/* Vendor ID Input and Send Button */}
+      <div style={{ margin: "1rem 0" }}>
+        <button onClick={sendToVendor} style={{ marginLeft: "0.5rem" }}>
+          Send to Vendor
+        </button>
       </div>
 
       {/* Search Filter */}
@@ -125,12 +177,6 @@ const Orders = () => {
         {filteredOrders.length > 0 ? (
           <table>
             <thead>
-              <tr>
-                <th>Actions</th>
-                {headers.map((header) => (
-                  <th key={header.key}>{header.label}</th>
-                ))}
-              </tr>
             </thead>
             <tbody>
               {filteredOrders.map((order, index) => (
@@ -154,7 +200,7 @@ const Orders = () => {
                           }
                         />
                       ) : (
-                        order[header.key] || "N/A"
+                        order[header.key] ? order[header.key] : ""
                       )}
                     </td>
                   ))}

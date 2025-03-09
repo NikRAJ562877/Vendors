@@ -4,6 +4,7 @@ import '../css/AdminNavbar.css';
 
 const AdminNavbar = () => {
   const navigate = useNavigate();
+
   const handleLogout = () => {
     sessionStorage.removeItem('user');
     navigate('/login');
@@ -19,6 +20,7 @@ const AdminNavbar = () => {
           <li><Link to="/orders">Orders</Link></li>
           <li><Link to="/report">Reports</Link></li>
           <li><Link to="/vendors">Vendor Management</Link></li>
+          <li><Link to="/dlr-mapping">DLR Mapping</Link></li>  {/* ✅ Added DLR Mapping Screen */}
           <li>
             <button onClick={handleLogout} className="admin-logout-button">
               Logout

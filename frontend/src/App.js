@@ -9,7 +9,8 @@ import Vendors from './components/Vendors';
 import VendorDashboard from './components/VendorDashboard';
 import AdminNavbar from './components/AdminNavbar';
 import VendorNavbar from './components/VendorNavbar';
-
+import VendorOrders from '../src/components/VendorOrders';
+import DlrMappingScreen from './components/DlrMappingScreen';
 // Admin layout: uses AdminNavbar and routes to admin pages
 const AdminLayout = () => (
   <>
@@ -20,6 +21,8 @@ const AdminLayout = () => (
         <Route path="/orders" element={<Orders />} />
         <Route path="/report" element={<Report />} />
         <Route path="/vendors" element={<Vendors />} />
+        <Route path="/vendor-orders" element={<VendorOrders />} />
+        <Route path="/dlr-mapping" element={<DlrMappingScreen />} /> 
         <Route path="*" element={<Navigate to="/admin-dashboard" />} />
       </Routes>
     </div>
@@ -34,6 +37,7 @@ const VendorLayout = () => (
       <Routes>
         <Route path="/vendor-dashboard" element={<VendorDashboard />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/VendorOrders" element={<Orders />} />
         <Route path="/report" element={<Report />} />
         <Route path="*" element={<Navigate to="/vendor-dashboard" />} />
       </Routes>
