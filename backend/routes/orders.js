@@ -23,7 +23,7 @@
         dlrCode: row.dlrCode || "",
         dlrName: row.dlrName || "",
         partNo: row.partNo || "",
-        qty: row.qty || "",
+        Qty: row.qty || "",
         orderNo: row.orderNo || "",
         po: row.po || "",
         VendorsId: row.VendorsId || "", // If your payload calls it "VendorsId"
