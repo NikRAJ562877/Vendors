@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Select from "react-select"; // For searchable dropdown
+import "../css/DlrMappingScreen.css";
+
 
 const DlrMappingScreen = () => {
   const [vendors, setVendors] = useState([]);
@@ -83,29 +85,30 @@ const DlrMappingScreen = () => {
   };
 
   return (
-    <div className="container">
-      <h2>DLR Code to Vendor Mapping</h2>
+    <div className="dlr-mapping-container">
+  <h2>DLR Code to Vendor Mapping</h2>
 
-      <label>Select Vendor:</label>
-      <Select
-        options={vendors}
-        value={selectedVendor}
-        onChange={setSelectedVendor}
-        placeholder="Search & select vendor"
-      />
+  <label>Select Vendor:</label>
+  <Select
+    className="dlr-select-container"
+    options={vendors}
+    value={selectedVendor}
+    onChange={setSelectedVendor}
+    placeholder="Search & select vendor"
+  />
 
-      <label>Enter DLR Code:</label>
-      <input
-        type="text"
-        value={dlrCodes}
-        onChange={(e) => setDlrCode(e.target.value)}
-        placeholder="Enter DLR Code"
-        className="input-field"
-      />
+  <label>Enter DLR Code:</label>
+  <input
+    type="text"
+    value={dlrCodes}
+    onChange={(e) => setDlrCode(e.target.value)}
+    placeholder="Enter DLR Code"
+    className="dlr-input-field"
+  />
 
-      <button onClick={handleSubmit} className="btn btn-primary">
-        {editId ? "Update Mapping" : "Map DLR Code"}
-      </button>
+  <button onClick={handleSubmit} className="btn btn-primary">
+    {editId ? "Update Mapping" : "Map DLR Code"}
+  </button>
 
       <h3>Existing Mappings</h3>
       <table className="table">

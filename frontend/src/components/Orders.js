@@ -16,7 +16,7 @@ const Orders = () => {
     { key: "DLRCODE", label: "DLR CODE" },
     { key: "DLRNAME", label: "DLRNAME" },
     { key: "Part no.", label: "Part No." },
-    { key: "Qty", label: "QTY" },
+    { key: "Qty", label: "Qty" },
     { key: "Order no.", label: "Order No./New Order No." },
     { key: "PO", label: "PO" },
     {key:"VendorsId",label:"VendorsId"}
@@ -177,6 +177,12 @@ const Orders = () => {
         {filteredOrders.length > 0 ? (
           <table>
             <thead>
+            <tr>
+      <th>Actions</th> {/* Column for Edit/Delete buttons */}
+      {headers.map((header) => (
+        <th key={header.key}>{header.label}</th>
+      ))}
+    </tr>
             </thead>
             <tbody>
               {filteredOrders.map((order, index) => (
