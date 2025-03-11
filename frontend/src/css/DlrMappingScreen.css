@@ -1,112 +1,61 @@
-/* Ensure styles are scoped to DLR Mapping Screen only */
 .dlr-mapping-container {
-    max-width: 800px;
-    margin: auto;
-    padding: 20px;
-    background: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Style for the title */
-  .dlr-mapping-container h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  /* Label styling */
-  .dlr-mapping-container label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #555;
-  }
-  
-  /* Dropdown styling */
-  .dlr-mapping-container .dlr-select-container {
-    position: relative;
-    z-index: 1000;
-    margin-bottom: 15px;
-  }
-  
-  .dlr-mapping-container .dlr-select-container .css-1s2u09g-control {
-    z-index: 1001;
-  }
-  
-  /* Input field styling */
-  .dlr-mapping-container .dlr-input-field {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dlr-select-container {
+  margin-bottom: 15px; /* Adds spacing below dropdown */
+  z-index: 5; /* Ensure it's above other elements */
+}
+
+.dlr-input-field {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px; /* Space before button */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f4f4f4;
+}
+
+@media (max-width: 600px) {
+  .dlr-mapping-container {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 15px;
-    font-size: 16px;
   }
-  
-  /* Button styling */
-  .dlr-mapping-container .btn {
-    padding: 10px 15px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: 0.3s;
-  }
-  
-  .dlr-mapping-container .btn-primary {
-    background: #007bff;
-    color: white;
-  }
-  
-  .dlr-mapping-container .btn-primary:hover {
-    background: #0056b3;
-  }
-  
-  .dlr-mapping-container .btn-warning {
-    background: #ffc107;
-    color: black;
-  }
-  
-  .dlr-mapping-container .btn-danger {
-    background: #dc3545;
-    color: white;
-  }
-  
-  /* Table styling */
-  .dlr-mapping-container .dlr-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background: white;
-  }
-  
-  .dlr-mapping-container .dlr-table th,
-  .dlr-mapping-container .dlr-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-  }
-  
-  .dlr-mapping-container .dlr-table th {
-    background: #007bff;
-    color: white;
-  }
-  
-  .dlr-mapping-container .dlr-table tr:nth-child(even) {
-    background: #f2f2f2;
-  }
-  
-  /* Ensure dropdown does not overlap */
-  .dlr-mapping-container .dlr-select-container {
-    position: relative;
-    z-index: 1000;
-  }
-  
-  /* Fix overlapping issues */
-  .dlr-mapping-container .dlr-input-field,
-  .dlr-mapping-container .dlr-table {
-    position: relative;
-    z-index: 1;
-  }
-  
+}
+

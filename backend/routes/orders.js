@@ -3,7 +3,7 @@
   const multer = require('multer');
   const xlsx = require('xlsx');
   const Order = require('../models/Order');
-
+  const DlrMapping =require('../models/DlrMapping')
   // Configure multer for in-memory storage
   const storage = multer.memoryStorage();
   const upload = multer({ storage });
@@ -26,7 +26,7 @@
         Qty: row.qty || "",
         orderNo: row.orderNo || "",
         po: row.po || "",
-        VendorsId: row.VendorsId || "", // If your payload calls it "VendorsId"
+        date: row.date ? new Date(row.date) : new Date(), // If your payload calls it "VendorsId"
       }));
 
       // Insert into DB
@@ -81,6 +81,5 @@
     }
   });
   //router vendorID
-  
-
+ 
   module.exports = router;

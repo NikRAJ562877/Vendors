@@ -19,7 +19,7 @@ const Orders = () => {
     { key: "Qty", label: "Qty" },
     { key: "Order no.", label: "Order No./New Order No." },
     { key: "PO", label: "PO" },
-    {key:"VendorsId",label:"VendorsId"}
+    { key: "date", label: "Date" } // Added Date column
   ];
 
   // Load orders from localStorage on mount
@@ -60,7 +60,7 @@ const Orders = () => {
         "Qty": row["Qty"] || "",
         "Order no.": row["Order no."] || "",
         "PO": row["PO"] || "",
-        "VendorsId":row["VendorsId"]||""
+        "date": row["Date"] || new Date().toISOString().split('T')[0],
       }));
       setOrders(extractedData);
     };
@@ -114,7 +114,7 @@ const Orders = () => {
       qty: order["Qty"],
       orderNo: order["Order no."],
       po: order["PO"],
-      VendorsId: order["VendorsId"]
+      date: order["date"] || new Date().toISOString().split('T')[0]
     }));
   
     try {
@@ -178,23 +178,17 @@ const Orders = () => {
           <table>
             <thead>
             <tr>
-      <th>Actions</th> {/* Column for Edit/Delete buttons */}
+    
       {headers.map((header) => (
         <th key={header.key}>{header.label}</th>
       ))}
+        <th>Actions</th> {/* Column for Edit/Delete buttons */}
     </tr>
             </thead>
             <tbody>
               {filteredOrders.map((order, index) => (
                 <tr key={index}>
-                  <td>
-                    <button onClick={() => toggleEditRow(index)}>
-                      {editableRows[index] ? "Save" : "Edit"}
-                    </button>
-                    <button onClick={() => deleteRow(index)} className="delete-btn">
-                      Delete
-                    </button>
-                  </td>
+                  
                   {headers.map((header) => (
                     <td key={header.key}>
                       {editableRows[index] ? (
@@ -210,6 +204,14 @@ const Orders = () => {
                       )}
                     </td>
                   ))}
+                  <td>
+                    <button onClick={() => toggleEditRow(index)}>
+                      {editableRows[index] ? "Save" : "Edit"}
+                    </button>
+                    <button onClick={() => deleteRow(index)} className="delete-btn">
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

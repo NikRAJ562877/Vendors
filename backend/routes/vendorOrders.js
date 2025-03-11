@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const VendorOrder = require('../models/VendorOrder');
-const OrderSchema =require('../models/Order')
+const OrderSchema =require('../models/Order');
+const DlrMapping = require('../models/DlrMapping');
 // POST /api/vendorOrders/:vendorId/orders
 // Send orders to a specific vendor
 router.post('/:vendorId/orders', async (req, res) => {
@@ -49,4 +50,34 @@ router.get('/:vendorId/getOrderDtls', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+router.get("/orders/:vendorId", async (req, res) => {
+  try {
+      const { vendorId } = req.params;
+      const { from_date, to_date } = req.query; // Get date range from frontend
+
+      if (!from_date || !to_date) {
+          return res.status(400).json({ message: "Please provide from_date and to_date" });
+      }
+
+      // 1. Find mapped DLR codes for this vendor
+      const mapping = await DlrMapping.findOne({ vendorId });
+
+      if (!mapping) {
+          return res.status(404).json({ message: "No mapping found for this vendor" });
+      }
+
+      // 2. Fetch orders within the given date range and matching DLR codes
+      const fetchedOrders  = await OrderSchema.find({
+          dlrCode: { $in: mapping.dlrCodes }, // Match dlrCode
+          date: { $gte: from_date, $lte: to_date } // Filter by date range
+      });
+      console.log("Fetched Orders:", fetchedOrders)
+      res.json(fetchedOrders );
+  } catch (error) {
+      console.error("Error fetching orders:", error);
+      res.status(500).json({ message: "Server error" });
+  }
+});
+
 module.exports = router;

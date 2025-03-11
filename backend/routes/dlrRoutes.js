@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const DlrMapping = require("../models/DlrMapping");
 const Vendor = require("../models/Vendor");
-
+const order = require("../models/Order");
 // ✅ Fetch all vendors for dropdown
 router.get("/vendors", async (req, res) => {
     try {
@@ -15,34 +15,75 @@ router.get("/vendors", async (req, res) => {
 
 // ✅ Save DLR Mapping
 router.post("/map", async (req, res) => {
-    const { vendorId, dlrCodes } = req.body;
+    const { vendorId, dlrCodes,date } = req.body;
 
     console.log("Received request body:", req.body);
 
-    if (!vendorId || !dlrCodes) {
-        console.log("Missing fields or invalid data format");
-        return res.status(400).json({ error: "Vendor ID and a DLR Code are required" });
+    if (!vendorId || !dlrCodes || !Array.isArray(dlrCodes) || dlrCodes.length === 0) {
+        console.log("Invalid data format");
+        return res.status(400).json({ error: "Vendor ID and at least one DLR Code are required" });
     }
 
-    try { 
-       
-            const newMapping = new DlrMapping({ vendorId, dlrCodes });
-            await newMapping.save();
-       
-        console.log("Mapping Saved Successfully:", { vendorId, dlrCodes });
-        res.json({ success: true, message: "DLR Code mapped successfully" });
+    try {
+        const { vendorId, dlrCodes } = req.body;
+
+        if (!Array.isArray(dlrCodes)) {
+            return res.status(400).json({ error: "DLR codes must be an array" });
+        }
+
+        const newMapping = new DlrMapping({
+            vendorId,
+            dlrCodes,date
+        });
+
+        await newMapping.save();
+        res.status(201).json(newMapping);
     } catch (error) {
         console.error("Error saving mapping:", error);
-        res.status(500).json({ error: "Error saving mapping" });
+        res.status(500).json({ error: "Failed to save mapping" });
     }
 });
-router.get("/mappings", async (req, res) => {
+router.get("/unmapped-dlr-codes", async (req, res) => {
     try {
-        const mappings = await DlrMapping.find();
-        res.json(mappings);
+      // Fetch all unique DLR codes from the Order collection
+      const orders = await order.find({}, "dlrCode").lean();
+      const allDlrCodes = [...new Set(orders.map(order => order.dlrCode))];
+  
+      // Fetch all mapped DLR codes from the DlrMapping collection
+      const mappedDlrEntries = await DlrMapping.find({}, "dlrCodes").lean();
+      const mappedDlrCodes = mappedDlrEntries.flatMap(entry => entry.dlrCodes);
+  
+      // Filter out the mapped DLR codes
+      const unmappedDlrCodes = allDlrCodes.filter(code => !mappedDlrCodes.includes(code));
+  
+      res.json(unmappedDlrCodes);
     } catch (error) {
-        console.error("Error fetching mappings:", error);
-        res.status(500).json({ error: "Error fetching mappings" });
+      console.error("Error fetching unmapped DLR codes:", error);
+      res.status(500).json({ error: "Error fetching unmapped DLR codes" });
+    }
+  });
+  
+  router.get("/mapping", async (req, res) => {
+    try {
+      const mappings = await DlrMapping.find();
+      res.json(mappings);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch mappings" });
+    }
+  });
+router.get("/mappings/:vendorId", async (req, res) => {
+    try {
+        const { vendorId } = req.params;
+        const mapping = await DlrMapping.findOne({ vendorId });
+
+        if (!mapping) {
+            return res.status(404).json({ error: "Mapping not found" });
+        }
+
+        res.json(mapping);
+    } catch (error) {
+        console.error("Error fetching mapping:", error);
+        res.status(500).json({ error: "Error fetching mapping" });
     }
 });
 router.put("/mappings/:id", async (req, res) => {
