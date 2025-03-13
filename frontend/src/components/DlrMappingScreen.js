@@ -31,7 +31,7 @@ const DlrMappingScreen = () => {
   // Fetch unique DLR Codes
   const fetchDlrCodes = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/dlr/unmapped-dlr-codes");
+      const res = await axios.get("https://vendors-backend-uspo.onrender.com");
       setDlrCodeOptions(res.data.map(code => ({ value: code, label: code })));
     } catch (error) {
       console.error("Error fetching unmapped DLR codes:", error);
@@ -41,7 +41,7 @@ const DlrMappingScreen = () => {
   // Fetch existing mappings
   const fetchMappings = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/dlr/mapping");
+      const res = await axios.get("https://vendors-backend-uspo.onrender.com");
       console.log("Mappings Data:", res.data);
       setMappings(res.data);
     } catch (error) {
@@ -57,7 +57,7 @@ const DlrMappingScreen = () => {
 
     try {
       if (editId) {
-        await axios.put(`http://localhost:5000/api/dlr/mappings/${editId}`, {
+        await axios.put(`https://vendors-backend-uspo.onrender.com`, {
           vendorId: selectedVendor.value,
           dlrCodes: selectedDlrCodes.map(d => d.value),
           date: selectedDate,
