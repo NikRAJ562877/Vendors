@@ -21,7 +21,7 @@ const DlrMappingScreen = () => {
   // Fetch vendors
   const fetchVendors = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/dlr/vendors");
+      const res = await axios.get("https://vendors-backend-uspo.onrender.com");
       setVendors(res.data.map(v => ({ value: v.vendorId, label: v.vendorId })));
     } catch (error) {
       console.error("Error fetching vendors:", error);
