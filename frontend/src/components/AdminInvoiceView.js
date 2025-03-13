@@ -11,7 +11,7 @@ const AdminInvoiceView = () => {
 
   const fetchInvoices = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/admin-invoices');
+      const res = await axios.get('https://vendors-backend-uspo.onrender.com');
       setInvoices(res.data);
     } catch (error) {
       console.error('Error fetching invoices:', error);
