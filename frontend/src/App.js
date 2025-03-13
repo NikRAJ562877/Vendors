@@ -4,13 +4,16 @@ import Login from './components/Login';
 import AdminSignup from './components/AdminSignup'; // New admin signup component
 import AdminDashboard from './components/AdminDashboard';
 import Orders from './components/Orders';
-import Report from './components/Report';
+ 
 import Vendors from './components/Vendors';
 import VendorDashboard from './components/VendorDashboard';
 import AdminNavbar from './components/AdminNavbar';
 import VendorNavbar from './components/VendorNavbar';
 import VendorOrders from '../src/components/VendorOrders';
 import DlrMappingScreen from './components/DlrMappingScreen';
+import ProductMasterScreen from './components/ProductMasterScreen';
+import AdminInvoiceView from './components/AdminInvoiceView';
+import VendorInvoiceUpload from './components/VendorInvoiceUpload';
 // Admin layout: uses AdminNavbar and routes to admin pages
 const AdminLayout = () => (
   <>
@@ -19,10 +22,11 @@ const AdminLayout = () => (
       <Routes>
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/report" element={<Report />} />
         <Route path="/vendors" element={<Vendors />} />
         <Route path="/vendor-orders" element={<VendorOrders />} />
+        <Route path="/admin-invoices" element={<AdminInvoiceView />} />
         <Route path="/dlr-mapping" element={<DlrMappingScreen />} /> 
+        <Route path="/product-master" element={<ProductMasterScreen />} />
         <Route path="*" element={<Navigate to="/admin-dashboard" />} />
       </Routes>
     </div>
@@ -36,9 +40,8 @@ const VendorLayout = () => (
     <div className="container">
       <Routes>
         <Route path="/vendor-dashboard" element={<VendorDashboard />} />
-        <Route path="/orders" element={<Orders />} />
         <Route path="/VendorOrders" element={<Orders />} />
-        <Route path="/report" element={<Report />} />
+        <Route path="/vendor-invoices" element={<VendorInvoiceUpload />} />
         <Route path="*" element={<Navigate to="/vendor-dashboard" />} />
       </Routes>
     </div>

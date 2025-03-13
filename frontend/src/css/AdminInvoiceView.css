@@ -1,0 +1,84 @@
+.admin-invoice-container {
+  max-width: 1000px;
+  width: 90%;
+  margin: 20px auto;
+  padding: 25px;
+  background: #fff3cd; /* Light yellow background */
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  text-align: center; /* Centers table */
+}
+
+/* Centering Table */
+.admin-invoice-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.admin-invoice-table th, 
+.admin-invoice-table td {
+  padding: 14px;
+  text-align: center; /* Centers text */
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.admin-invoice-table th {
+  background: #ff9800; /* Orange */
+  color: white;
+  text-transform: uppercase;
+}
+
+.admin-invoice-table tr:nth-child(even) {
+  background: #fff8e1; /* Lighter shade */
+}
+
+.admin-invoice-table tr:hover {
+  background: #ffe0b2; /* Light orange hover */
+  transition: background 0.2s ease-in-out;
+}
+
+/* Download Button Styling */
+.admin-invoice-container .admin-invoice-download-link {
+  display: inline-block;
+  padding: 8px 14px;
+  background: #d9534f;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background 0.3s ease-in-out, transform 0.2s;
+  text-align: center;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Hover Effect: Makes it stand out */
+.admin-invoice-container .admin-invoice-download-link:hover {
+  background: #c9302c;
+  text-decoration: none;
+  transform: scale(1.1);
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.admin-invoice-container .admin-invoice-download-link:active {
+  transform: scale(0.95);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .admin-invoice-container {
+      width: 95%;
+      padding: 15px;
+  }
+
+  .admin-invoice-table th, 
+  .admin-invoice-table td {
+      padding: 10px;
+      font-size: 12px;
+  }
+}

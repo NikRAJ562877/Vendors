@@ -2,17 +2,19 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Select from "react-select";  // For multi-selection dropdown
 import "../css/DlrMappingScreen.css";
+
 const DlrMappingScreen = () => {
   const [vendors, setVendors] = useState([]);
   const [selectedVendor, setSelectedVendor] = useState(null);
-  const [dlrCodeOptions, setDlrCodeOptions] = useState([]); // Store unique DLR codes
-  const [selectedDlrCodes, setSelectedDlrCodes] = useState([]); // Multi-select
+  const [dlrCodeOptions, setDlrCodeOptions] = useState([]);
+  const [selectedDlrCodes, setSelectedDlrCodes] = useState([]);
   const [mappings, setMappings] = useState([]);
   const [editId, setEditId] = useState(null);
-  const [selectedDate, setSelectedDate] = useState("");  // Add this
+  const [selectedDate, setSelectedDate] = useState("");
+
   useEffect(() => {
     fetchVendors();
-   fetchDlrCodes();
+    fetchDlrCodes();
     fetchMappings();
   }, []);
 
@@ -27,21 +29,21 @@ const DlrMappingScreen = () => {
   };
 
   // Fetch unique DLR Codes
-   const fetchDlrCodes = async () => {
-  try {
-    const res = await axios.get("http://localhost:5000/api/dlr/unmapped-dlr-codes");
-    setDlrCodeOptions(res.data.map(code => ({ value: code, label: code })));
-  } catch (error) {
-    console.error("Error fetching unmapped DLR codes:", error);
-  }
-   };
+  const fetchDlrCodes = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/dlr/unmapped-dlr-codes");
+      setDlrCodeOptions(res.data.map(code => ({ value: code, label: code })));
+    } catch (error) {
+      console.error("Error fetching unmapped DLR codes:", error);
+    }
+  };
 
   // Fetch existing mappings
   const fetchMappings = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/dlr/mapping");
-      console.log("Mappings Data:", res.data);  // Debugging Log
-      setMappings(res.data); // Set mappings to display in the table
+      console.log("Mappings Data:", res.data);
+      setMappings(res.data);
     } catch (error) {
       console.error("Error fetching unmapped DLR codes:", error);
     }
@@ -55,7 +57,6 @@ const DlrMappingScreen = () => {
 
     try {
       if (editId) {
-        // Update existing mapping
         await axios.put(`http://localhost:5000/api/dlr/mappings/${editId}`, {
           vendorId: selectedVendor.value,
           dlrCodes: selectedDlrCodes.map(d => d.value),
@@ -63,7 +64,6 @@ const DlrMappingScreen = () => {
         });
         alert("Mapping updated successfully!");
       } else {
-        // Add new mapping
         await axios.post("http://localhost:5000/api/dlr/map", {
           vendorId: selectedVendor.value,
           dlrCodes: selectedDlrCodes.map(d => d.value),
@@ -116,6 +116,8 @@ const DlrMappingScreen = () => {
             isMulti
             menuPlacement="auto"
             menuPosition="fixed"
+            menuPortalTarget={document.body}
+            styles={{ menuPortal: base => ({ ...base, zIndex: 1000 }) }}
           />
         </div>
   
@@ -158,5 +160,7 @@ const DlrMappingScreen = () => {
         </tbody>
       </table>
     </div>
-  );}
+  );
+};
+
 export default DlrMappingScreen;

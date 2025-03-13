@@ -18,9 +18,10 @@ const AdminNavbar = () => {
         </div>
         <ul className="admin-navbar-links">
           <li><Link to="/orders">Orders</Link></li>
-          <li><Link to="/report">Reports</Link></li>
           <li><Link to="/vendors">Vendor Management</Link></li>
-          <li><Link to="/dlr-mapping">DLR Mapping</Link></li>  {/* ✅ Added DLR Mapping Screen */}
+          <li><Link to="/admin-invoices">View Invoices</Link></li>
+          <li><Link to="/dlr-mapping">DLR Mapping</Link></li>
+          <li><Link to="/product-master">Product Master</Link></li>  
           <li>
             <button onClick={handleLogout} className="admin-logout-button">
               Logout

@@ -1,48 +1,61 @@
 .vendor-navbar {
-    background-color: #2c3e50;
-    padding: 1rem 1.5rem;
-    color: #fff;
-  }
-  
-  .vendor-navbar-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .vendor-navbar-brand {
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
-  .vendor-navbar-links {
-    list-style: none;
-    display: flex;
-    gap: 1rem;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .vendor-navbar-links li a {
-    color: #fff;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  
-  .vendor-navbar-links li a:hover {
-    color: #f39c12;
-  }
-  
-  .vendor-logout-button {
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: color 0.3s ease;
-  }
-  
-  .vendor-logout-button:hover {
-    color: #e74c3c;
-  }
-  
+  background-color: #2c3e50;
+  padding: 1rem 2rem;
+  color: #fff;
+}
+
+/* Container for brand + nav items */
+.vendor-navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Ensures brand & nav items align vertically */
+}
+
+/* Brand styling */
+.vendor-navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Nav links container */
+.vendor-navbar-links {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  gap: 1.5rem;
+  align-items: center; /* Aligns each <li> item in the middle */
+}
+
+/* Each <li> wraps an <a> or <button> */
+.vendor-navbar-links li {
+  display: flex;
+  align-items: center;   /* Aligns text or button in the middle */
+  margin: 0;
+  padding: 0;
+}
+
+/* Common link/button styling for alignment */
+.vendor-navbar-links li a,
+.vendor-logout-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #fff;
+  text-decoration: none;
+  /* Key line-height and vertical-align for consistent baseline */
+  line-height: 1.2;         
+  vertical-align: middle;   
+  display: inline-flex;      
+  align-items: center;       
+  transition: color 0.3s ease;
+  padding: 0;
+  margin: 0;
+}
+
+/* Hover states */
+.vendor-navbar-links li a:hover,
+.vendor-logout-button:hover {
+  color: #f39c12;
+}

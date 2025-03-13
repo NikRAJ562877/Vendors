@@ -4,6 +4,7 @@ import '../css/VendorNavbar.css';
 
 const VendorNavbar = () => {
   const navigate = useNavigate();
+  
   const handleLogout = () => {
     sessionStorage.removeItem('user');
     navigate('/login');
@@ -17,8 +18,7 @@ const VendorNavbar = () => {
         </div>
         <ul className="vendor-navbar-links">
           <li><Link to="/vendor-dashboard">Home</Link></li>
-          <li><Link to="/orders">Orders</Link></li>
-          <li><Link to="/report">Reports</Link></li>
+          <li><Link to="/vendor-invoices">Upload Invoice</Link></li>
           <li>
             <button onClick={handleLogout} className="vendor-logout-button">
               Logout

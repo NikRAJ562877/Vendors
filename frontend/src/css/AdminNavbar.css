@@ -1,48 +1,67 @@
+/* Overall navbar container */
 .admin-navbar {
-    background-color: #1F2937;
-    padding: 1rem 1.5rem;
-    color: #fff;
-  }
+  background-color: #1F2937;
+  padding: 1rem 1.5rem;
+  color: #fff;
+}
+
+/* Flex container: brand on the left, links on the right */
+.admin-navbar-container {
+  display: flex;
+  align-items: center;      /* Vertically center brand and nav */
+  justify-content: space-between; 
+}
+
+/* Brand styling */
+.admin-navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: inline-flex;     /* So brand text aligns properly */
+  align-items: center;      /* Vertically center if there's an icon or text */
+  margin: 0;
+  padding: 0;
+}
+
+/* The UL that holds all nav items */
+.admin-navbar-links {
+  list-style: none;
+  display: flex;
+  align-items: center;      /* Vertically center all li items */
+  gap: 1rem;                /* Spacing between each nav item */
+  margin: 0;
+  padding: 0;
+}
+
+/* Each list item uses flex alignment so the content lines up */
+.admin-navbar-links li {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+/* Common styling for links and the logout button */
+.admin-navbar-links li a,
+.admin-logout-button {
+  color: #fff;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
   
-  .admin-navbar-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+  /* Zero out default spacing that can misalign text vs. buttons */
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;             /* Ensures a consistent line-height */
   
-  .admin-navbar-brand {
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
-  .admin-navbar-links {
-    list-style: none;
-    display: flex;
-    gap: 1rem;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .admin-navbar-links li a {
-    color: #fff;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  
-  .admin-navbar-links li a:hover {
-    color: #ddd;
-  }
-  
-  .admin-logout-button {
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: color 0.3s ease;
-  }
-  
-  .admin-logout-button:hover {
-    color: #e53e3e;
-  }
-  
+  display: inline-flex;         /* Let text sit on the same baseline */
+  align-items: center;          /* Vertically center the text */
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+/* Hover states for links and button */
+.admin-navbar-links li a:hover,
+.admin-logout-button:hover {
+  color: #e53e3e;
+}

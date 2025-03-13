@@ -1,0 +1,75 @@
+.vendor-dashboard {
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 1rem;
+  }
+  
+  .date-filters {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .date-filters label {
+    font-weight: bold;
+  }
+  
+  .date-filters input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .download-buttons {
+    margin-bottom: 1rem;
+  }
+  
+  .download-buttons button {
+    padding: 10px;
+    margin-right: 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .download-buttons button:hover {
+    background-color: #0056b3;
+  }
+  
+  .vendor-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  .vendor-table th,
+  .vendor-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .vendor-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  .vendor-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .loading,
+  .no-data {
+    font-size: 16px;
+    font-style: italic;
+    color: #666;
+    margin-top: 1rem;
+  }
+  
