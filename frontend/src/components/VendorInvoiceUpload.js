@@ -20,9 +20,16 @@ const VendorInvoiceUpload = () => {
   const handleChange = (index, event) => {
     const { name, value, files } = event.target;
     const updatedInvoices = [...invoices];
-    updatedInvoices[index][name] = files ? files[0] : value;
+  
+    if (name === "file") {
+      updatedInvoices[index][name] = files ? Array.from(files) : [];
+    } else {
+      updatedInvoices[index][name] = value;
+    }
+  
     setInvoices(updatedInvoices);
   };
+  
 
   // ✅ Calculate Total Amount Dynamically
   const totalAmount = invoices.reduce((sum, invoice) => sum + (parseFloat(invoice.amount) || 0), 0);
@@ -32,7 +39,7 @@ const VendorInvoiceUpload = () => {
       alert("Vendor ID is missing. Please log in again.");
       return;
     }
-
+  
     const formData = new FormData();
     const invoiceData = invoices.map((invoice) => ({
       invoiceNo: invoice.invoiceNo,
@@ -41,14 +48,17 @@ const VendorInvoiceUpload = () => {
       amount: invoice.amount,
       vendorId,
     }));
-
+  
     formData.append("invoices", JSON.stringify(invoiceData));
-    invoices.forEach((invoice) => {
+  
+    invoices.forEach((invoice, index) => {
       if (invoice.file) {
-        formData.append("files", invoice.file);
+        invoice.file.forEach((file) => {
+          formData.append(`files-${index}`, file);
+        });
       }
     });
-
+  
     try {
       await axios.post("http://localhost:5000/api/vendor-invoices/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -60,6 +70,8 @@ const VendorInvoiceUpload = () => {
       alert(`Failed to upload invoices: ${error.response?.data?.error || error.message}`);
     }
   };
+  
+  
 
   return (
     <div className="vendor-invoice-container">
@@ -70,7 +82,7 @@ const VendorInvoiceUpload = () => {
           <input type="date" name="date" value={invoice.date} onChange={(e) => handleChange(index, e)} />
           <input type="month" name="month" value={invoice.month} onChange={(e) => handleChange(index, e)} />
           <input type="number" name="amount" placeholder="Amount" value={invoice.amount} onChange={(e) => handleChange(index, e)} />
-          <input type="file" name="file" onChange={(e) => handleChange(index, e)} />
+          <input type="file" name="file" multiple onChange={(e) => handleChange(index, e)} />
           <button className="delete-btn" onClick={() => deleteInvoice(index)}>❌ Delete</button>
         </div>
       ))}

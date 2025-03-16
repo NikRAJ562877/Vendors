@@ -6,8 +6,8 @@ const InvoiceSchema = new mongoose.Schema({
   month: { type: String, required: true },
   amount: { type: Number, required: true },
   vendorId: { type: String, required: true },
-  fileName: { type: String, required: true },
-  supportDocName: { type: String } // ✅ Optional field for extra documents
+  fileName: [{ type: String, required: true }], // ✅ Store multiple filenames
+  supportDocName: { type: String } // Optional
 });
 
 module.exports = mongoose.model('Invoice', InvoiceSchema);

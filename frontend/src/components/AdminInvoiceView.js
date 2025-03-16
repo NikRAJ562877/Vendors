@@ -41,10 +41,21 @@ const AdminInvoiceView = () => {
               <td>{invoice.amount}</td>
               <td>{invoice.vendorId}</td>
               <td>
-                <a href={`http://localhost:5000/uploads/${invoice.fileName}`} download>
-                  Download
-                </a>
-              </td>
+  {Array.isArray(invoice.fileName) ? (
+    invoice.fileName.map((file, index) => (
+      <div key={index}>
+        <a href={`http://localhost:5000/uploads/${file}`} download>
+          📄 {file}
+        </a>
+      </div>
+    ))
+  ) : (
+    <a href={`http://localhost:5000/uploads/${invoice.fileName}`} download>
+      📄 {invoice.fileName}
+    </a>
+  )}
+</td>
+
             </tr>
           ))}
         </tbody>
