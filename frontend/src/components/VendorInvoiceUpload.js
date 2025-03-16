@@ -41,35 +41,43 @@ const VendorInvoiceUpload = () => {
     }
   
     const formData = new FormData();
-    const invoiceData = invoices.map((invoice) => ({
-      invoiceNo: invoice.invoiceNo,
-      date: invoice.date,
-      month: invoice.month,
-      amount: invoice.amount,
+  
+    // ✅ Attach invoice data
+    const invoiceData = invoices.map(({ file, ...invoice }) => ({
+      ...invoice,
       vendorId,
     }));
-  
     formData.append("invoices", JSON.stringify(invoiceData));
   
+    // ✅ Attach files with indexed keys
     invoices.forEach((invoice, index) => {
       if (invoice.file) {
         invoice.file.forEach((file) => {
-          formData.append(`files-${index}`, file);
+          formData.append(`files-${index}`, file); // ✅ Send indexed file field names
+          console.log(`📤 Appending File:`, file.name, `as files-${index}`);
         });
       }
     });
   
+    console.log("📦 FormData Content:");
+    for (let pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+  
     try {
-      await axios.post("http://localhost:5000/api/vendor-invoices/upload", formData, {
+      const response = await axios.post("http://localhost:5000/api/vendor-invoices/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+  
       alert("Invoices uploaded successfully");
-      setInvoices([]);
+      console.log("✅ Response Data:", response.data);
+      setInvoices([]); // Clear form on success
     } catch (error) {
-      console.error("Upload failed:", error.response?.data || error.message);
+      console.error("❌ Upload failed:", error.response?.data || error.message);
       alert(`Failed to upload invoices: ${error.response?.data?.error || error.message}`);
     }
   };
+  
   
   
 

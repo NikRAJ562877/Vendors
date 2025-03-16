@@ -13,22 +13,26 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// Upload Invoice
+ 
 // Upload Invoice
 router.post('/upload', upload.any(), async (req, res) => {
   try {
-    console.log('Received Files:', req.files);
-    console.log('Received Body:', req.body);
+    console.log('📥 Received Upload Request');
+    console.log('📝 Received Files:', req.files);
+    console.log('📦 Received Body:', req.body);
 
     if (!req.body.invoices) {
       return res.status(400).json({ error: 'Invoice data is missing' });
     }
 
+    // ✅ Parse invoice data
     const invoicesData = JSON.parse(req.body.invoices);
-    console.log('Parsed Invoices:', invoicesData);
+    console.log('✅ Parsed Invoices:', invoicesData);
 
-    const invoices = invoicesData.map((inv) => {
-      const invoiceFiles = req.files.filter((file) => file.originalname.startsWith(inv.invoiceNo));
+    // ✅ Map files to correct invoices based on index
+    const invoices = invoicesData.map((inv, index) => {
+      // Extract all files associated with this invoice index
+      const invoiceFiles = req.files.filter((file) => file.fieldname === `files-${index}`);
 
       return {
         invoiceNo: inv.invoiceNo,
@@ -36,21 +40,26 @@ router.post('/upload', upload.any(), async (req, res) => {
         month: inv.month,
         amount: inv.amount,
         vendorId: inv.vendorId || 'Unknown',
-        fileName: invoiceFiles.map((file) => file.filename), // Store multiple filenames as an array
+        fileName: invoiceFiles.map((file) => file.filename), // ✅ Store multiple filenames as an array
       };
     });
 
-    console.log('Final Invoices for MongoDB:', invoices);
+    console.log('📄 Final Invoices for MongoDB:', invoices);
 
+    // ✅ Save invoices to MongoDB
     await Invoice.insertMany(invoices);
     res.status(200).json({ message: 'Invoices uploaded successfully' });
 
   } catch (error) {
-    console.error('Upload error:', error);
+    console.error('❌ Upload error:', error);
     res.status(500).json({ error: 'Failed to upload invoices', details: error.message });
   }
 });
 
+
+
+// ✅ Serve static files from the "uploads" folder
+router.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Fetch Invoices
 router.get('/', async (req, res) => {
