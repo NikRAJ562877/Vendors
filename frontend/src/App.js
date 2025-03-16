@@ -14,6 +14,7 @@ import DlrMappingScreen from './components/DlrMappingScreen';
 import ProductMasterScreen from './components/ProductMasterScreen';
 import AdminInvoiceView from './components/AdminInvoiceView';
 import VendorInvoiceUpload from './components/VendorInvoiceUpload';
+import Reports from './components/Reports';
 // Admin layout: uses AdminNavbar and routes to admin pages
 const AdminLayout = () => (
   <>
@@ -28,6 +29,7 @@ const AdminLayout = () => (
         <Route path="/dlr-mapping" element={<DlrMappingScreen />} /> 
         <Route path="/product-master" element={<ProductMasterScreen />} />
         <Route path="*" element={<Navigate to="/admin-dashboard" />} />
+        <Route path="/reports" element={<Reports />} />
       </Routes>
     </div>
   </>
@@ -43,6 +45,7 @@ const VendorLayout = () => (
         <Route path="/VendorOrders" element={<Orders />} />
         <Route path="/vendor-invoices" element={<VendorInvoiceUpload />} />
         <Route path="*" element={<Navigate to="/vendor-dashboard" />} />
+       
       </Routes>
     </div>
   </>

@@ -21,5 +21,15 @@ router.post("/add-product", async (req, res) => {
         res.status(500).json({ message: "Error saving product", error: error.message });
     }
 });
+router.get("/getProducts", async (req, res) => {
+    const { category } = req.query;
+    let query = {};
 
+    if (category) {
+        query.category = category; // Filter products by category if provided
+    }
+
+    const products = await Product.find(query);
+    res.json(products);
+  });
 module.exports = router;

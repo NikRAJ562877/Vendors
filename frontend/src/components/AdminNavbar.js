@@ -22,6 +22,7 @@ const AdminNavbar = () => {
           <li><Link to="/admin-invoices">View Invoices</Link></li>
           <li><Link to="/dlr-mapping">DLR Mapping</Link></li>
           <li><Link to="/product-master">Product Master</Link></li>  
+          <li><Link to="/reports">Reports</Link></li>  
           <li>
             <button onClick={handleLogout} className="admin-logout-button">
               Logout
