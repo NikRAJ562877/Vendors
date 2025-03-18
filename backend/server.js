@@ -23,22 +23,25 @@ const vendorsRoutes = require('./routes/vendors');
 const ordersRoutes = require('./routes/orders');
 const vendorOrdersRoutes = require('./routes/vendorOrders');
 const dlrRoutes = require("./routes/dlrRoutes");
-const reportsRoutes = require('./routes/reports');
+ 
 const productRoutes = require('./routes/productMaster');
 const vendorInvoicesRoutes = require('./routes/vendorInvoices');  
-const adminInvoicesRoutes = require('./routes/adminInvoices');    
-
+const adminInvoicesRoutes = require('./routes/adminInvoices');
+const reportRoutes = require('./routes/reportRoutes');
 // Use routes
 app.use('/api/auth', authRoutes);
 app.use('/api/admins', adminsRoutes);
 app.use('/api/vendors', vendorsRoutes);
 app.use("/api/order", ordersRoutes);
 app.use('/api/vendorOrders', vendorOrdersRoutes);
-app.use('/api/reports', reportsRoutes);
+ 
 app.use("/api/dlr", dlrRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/vendor-invoices", vendorInvoicesRoutes);
 app.use("/api/admin-invoices", adminInvoicesRoutes);
+app.use("/api/reports", reportRoutes);
 
 const PORT = process.env.PORT || 5000;
+console.log("✅ Routes Loaded:", app._router.stack.map(r => r.route && r.route.path));
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

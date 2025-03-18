@@ -44,23 +44,21 @@ router.post("/map", async (req, res) => {
     }
 });
 router.get("/unmapped-dlr-codes", async (req, res) => {
-    try {
-      // Fetch all unique DLR codes from the Order collection
-      const orders = await order.find({}, "dlrCode").lean();
-      const allDlrCodes = [...new Set(orders.map(order => order.dlrCode))];
-  
-      // Fetch all mapped DLR codes from the DlrMapping collection
-      const mappedDlrEntries = await DlrMapping.find({}, "dlrCodes").lean();
-      const mappedDlrCodes = mappedDlrEntries.flatMap(entry => entry.dlrCodes);
-  
-      // Filter out the mapped DLR codes
-      const unmappedDlrCodes = allDlrCodes.filter(code => !mappedDlrCodes.includes(code));
-  
-      res.json(unmappedDlrCodes);
-    } catch (error) {
-      console.error("Error fetching unmapped DLR codes:", error);
-      res.status(500).json({ error: "Error fetching unmapped DLR codes" });
-    }
+    const orders = await order.find({}, "dlrCode").lean();
+        const allDlrCodes = [...new Set(orders.map(order => order.dlrCode))];
+
+        // Fetch all mapped DLR codes from DlrMapping
+        const mappedDlrEntries = await DlrMapping.find({}, "dlrCodes").lean();
+        const mappedDlrCodes = new Set(mappedDlrEntries.flatMap(entry => entry.dlrCodes)); // Use Set for faster lookup
+
+        // Filter out mapped DLR codes
+        const unmappedDlrCodes = allDlrCodes.filter(code => !mappedDlrCodes.has(code)); // Check in Set
+
+        console.log("✅ Unique DLR Codes from Orders:", allDlrCodes);
+        console.log("❌ Mapped DLR Codes:", [...mappedDlrCodes]);
+        console.log("🔴 Final Unmapped DLR Codes:", unmappedDlrCodes);
+
+        res.json(unmappedDlrCodes);
   });
   
   router.get("/mapping", async (req, res) => {

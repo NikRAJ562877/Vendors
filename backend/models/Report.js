@@ -1,17 +1,21 @@
 const mongoose = require("mongoose");
 
-const reportSchema = new mongoose.Schema({
-  category: { type: String, required: true }, // e.g., CERAMIC, PPF
-  items: [
+const ReportSchema = new mongoose.Schema({
+  vendorId: { type: String, required: true },
+  reports: [
     {
+      category: String,
       partNo: String,
       productName: String,
-      quantity: Number,
       amount: Number,
+      qty: Number,
+      total: Number,
+      
     },
   ],
-  totalAmount: Number,
+  finalTotal: { type: Number, required: true },
   createdAt: { type: Date, default: Date.now },
+  month: { type: Number, required: true, min: 1, max: 12 },
 });
 
-module.exports = mongoose.model("Report", reportSchema);
+module.exports = mongoose.model("Report", ReportSchema);

@@ -7,7 +7,7 @@ const OrderForm = () => {
   const [selectedVendor, setSelectedVendor] = useState("");
   const [rows, setRows] = useState([]);
   const [finalTotal, setFinalTotal] = useState(0);
-
+  const [selectedMonth, setSelectedMonth] = useState("");
   useEffect(() => {
     const fetchVendors = async () => {
         try {
@@ -109,28 +109,33 @@ const OrderForm = () => {
 
   const handleSubmit = async () => {
     if (!selectedVendor) {
-      alert("Please select a vendor before saving the order.");
+      alert("Please select a vendor before saving the report.");
       return;
     }
-
+    if (!selectedMonth) {
+      alert("Please select a month before saving the report.");
+      return;
+    }
+  
     try {
-      const response = await fetch("http://localhost:5000/api/orders", {
+      const response = await fetch("http://localhost:5000/api/reports", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ vendor: selectedVendor, orders: rows, finalTotal }),
+        body: JSON.stringify({ vendor: selectedVendor, reports: rows, finalTotal ,month: selectedMonth,}),
       });
-
+  
       if (response.ok) {
-        alert("Order saved successfully!");
+        alert("Report saved successfully!");
         setRows([]);
         setFinalTotal(0);
         setSelectedVendor("");
+        setSelectedMonth("");
       }
     } catch (error) {
-      console.error("Error saving order:", error);
+      console.error("Error saving report:", error);
     }
   };
-
+  
   return (
     <div className="p-6 max-w-5xl mx-auto bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold text-center mb-6">Order Form</h2>
@@ -151,7 +156,25 @@ const OrderForm = () => {
   ))}
 </select>
       </div>
-
+ {/* Month Selection */}
+ <div className="mb-6">
+      <label className="block text-lg font-semibold mb-2">Select Month:</label>
+      <select
+        value={selectedMonth}
+        onChange={(e) => setSelectedMonth(e.target.value)}
+        className="border p-3 w-full rounded-lg"
+      >
+        <option value="">-- Select Month --</option>
+        {Array.from({ length: 12 }, (_, i) => {
+          const month = new Date(0, i).toLocaleString("default", { month: "long" });
+          return (
+            <option key={i + 1} value={i + 1}>
+              {month}
+            </option>
+          );
+        })}
+      </select>
+    </div>
       {/* Order Table */}
       <div className="overflow-x-auto">
         <table className="w-full border border-gray-300 text-left">

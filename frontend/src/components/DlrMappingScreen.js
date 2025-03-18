@@ -32,7 +32,10 @@ const DlrMappingScreen = () => {
   const fetchDlrCodes = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/dlr/unmapped-dlr-codes");
+      console.log("🚀 API Response (Final Unmapped DLR Codes):", res.data); 
       setDlrCodeOptions(res.data.map(code => ({ value: code, label: code })));
+      console.log("📌 Dropdown Options:", dlrCodeOptions);
+
     } catch (error) {
       console.error("Error fetching unmapped DLR codes:", error);
     }
@@ -63,6 +66,7 @@ const DlrMappingScreen = () => {
           date: selectedDate,
         });
         alert("Mapping updated successfully!");
+        fetchDlrCodes();  
       } else {
         await axios.post("http://localhost:5000/api/dlr/map", {
           vendorId: selectedVendor.value,

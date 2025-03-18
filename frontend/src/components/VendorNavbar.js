@@ -19,6 +19,7 @@ const VendorNavbar = () => {
         <ul className="vendor-navbar-links">
           <li><Link to="/vendor-dashboard">Home</Link></li>
           <li><Link to="/vendor-invoices">Upload Invoice</Link></li>
+          <li><Link to="/vendor-report">Report View</Link></li>
           <li>
             <button onClick={handleLogout} className="vendor-logout-button">
               Logout
