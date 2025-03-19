@@ -4,16 +4,27 @@ import '../css/Vendors.css';
 
 const Vendors = () => {
   const [vendorId, setVendorId] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/vendors', { vendorId, password });
+      const res = await axios.post('http://localhost:5000/api/vendors', {
+        vendorId,
+        name,
+        email,
+        password,
+      });
       setMessage(res.data.message);
+      setVendorId('');
+      setName('');
+      setEmail('');
+      setPassword('');
     } catch (err) {
-      setMessage(err.response.data.error);
+      setMessage(err.response?.data?.error || 'Error creating vendor');
     }
   };
 
@@ -27,6 +38,24 @@ const Vendors = () => {
             type="text"
             value={vendorId}
             onChange={(e) => setVendorId(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Name:</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Email:</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>

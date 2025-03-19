@@ -23,7 +23,7 @@ const vendorsRoutes = require('./routes/vendors');
 const ordersRoutes = require('./routes/orders');
 const vendorOrdersRoutes = require('./routes/vendorOrders');
 const dlrRoutes = require("./routes/dlrRoutes");
- 
+const orderHistoryRoutes = require('./routes/orderhistory'); 
 const productRoutes = require('./routes/productMaster');
 const vendorInvoicesRoutes = require('./routes/vendorInvoices');  
 const adminInvoicesRoutes = require('./routes/adminInvoices');
@@ -34,7 +34,7 @@ app.use('/api/admins', adminsRoutes);
 app.use('/api/vendors', vendorsRoutes);
 app.use("/api/order", ordersRoutes);
 app.use('/api/vendorOrders', vendorOrdersRoutes);
- 
+app.use("/api/orderhistory", orderHistoryRoutes); 
 app.use("/api/dlr", dlrRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/vendor-invoices", vendorInvoicesRoutes);

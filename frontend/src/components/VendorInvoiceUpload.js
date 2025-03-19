@@ -97,7 +97,7 @@ const VendorInvoiceUpload = () => {
 
       {/* ✅ Show Total Amount */}
       <div className="vendor-invoice-total">
-        <strong>Total Amount: </strong> ${totalAmount.toLocaleString()}  
+        <strong>Total Amount: </strong> {totalAmount.toLocaleString()}  
       </div>
 
       <div className="vendor-invoice-buttons">

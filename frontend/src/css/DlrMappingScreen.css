@@ -1,34 +1,37 @@
 .dlr-mapping-container {
-  max-width: 800px; /* Increased width for better spacing */
-  margin: 30px auto; /* Centering with more margin */
+  max-width: 1000px;
+  margin: 30px auto;
   padding: 25px;
   background: #fff;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-.dlr-select-container {
+/* Dropdown Container */
+.dlr-mapping-container .dlr-select-container {
   margin-bottom: 20px;
-  z-index: 1000;
   position: relative;
 }
 
-.dlr-input-field .css-26l3qy-menu {
+/* Dropdown Styles */
+.dlr-mapping-container .dlr-input-field .css-26l3qy-menu {
   z-index: 1000 !important;
   position: absolute;
 }
 
-.dlr-input-field .css-1n7v3ny-option {
+.dlr-mapping-container .dlr-input-field .css-1n7v3ny-option {
   overflow-y: auto;
-  max-height: 250px; /* Increased dropdown height */
+  max-height: 250px;
 }
 
-.table-container {
-  overflow-x: auto; /* Ensures table doesn't overflow on small screens */
+/* Table Wrapper */
+.dlr-mapping-container .table-container {
+  overflow-x: auto;
   margin-top: 25px;
 }
 
-.table {
+/* Table Styling */
+.dlr-mapping-container .table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 15px;
@@ -36,18 +39,21 @@
   z-index: 1;
 }
 
-.table th, .table td {
+.dlr-mapping-container .table th,
+.dlr-mapping-container .table td {
   border: 1px solid #ddd;
-  padding: 12px; /* Increased padding for better spacing */
+  padding: 12px;
   text-align: left;
 }
 
-.table th {
-  background-color: #f8f9fa;
+.dlr-mapping-container .table th {
+  background-color: #4b0082;
   font-weight: bold;
+  color: white;
 }
 
-.btn {
+/* Button Styling */
+.dlr-mapping-container .btn {
   display: inline-block;
   padding: 12px 15px;
   margin-top: 10px;
@@ -59,17 +65,140 @@
   text-align: center;
 }
 
-.btn:hover {
+.dlr-mapping-container .btn:hover {
   background-color: #0056b3;
 }
 
+/* Form Fields */
+.dlr-mapping-container .dlr-form-group {
+  margin-bottom: 15px;
+}
+
+.dlr-mapping-container .dlr-form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Date Picker */
+.dlr-mapping-container .dlr-date-picker {
+  padding: 8px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .dlr-mapping-container {
     width: 95%;
     padding: 15px;
   }
 
-  .table th, .table td {
+  .dlr-mapping-container .table th,
+  .dlr-mapping-container .table td {
+    padding: 10px;
+  }
+}
+.dlr-mapping-container {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 25px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Dropdown Container */
+.dlr-mapping-container .dlr-select-container {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+/* Dropdown Styles */
+.dlr-mapping-container .dlr-input-field .css-26l3qy-menu {
+  z-index: 1000 !important;
+  position: absolute;
+}
+
+.dlr-mapping-container .dlr-input-field .css-1n7v3ny-option {
+  overflow-y: auto;
+  max-height: 250px;
+}
+
+/* Table Wrapper */
+.dlr-mapping-container .table-container {
+  overflow-x: auto;
+  margin-top: 25px;
+}
+
+/* Table Styling */
+.dlr-mapping-container .table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  position: relative;
+  z-index: 1;
+}
+
+.dlr-mapping-container .table th,
+.dlr-mapping-container .table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+.dlr-mapping-container .table th {
+  background-color: #4b0082;
+  font-weight: bold;
+  color: white;
+}
+
+/* Button Styling */
+.dlr-mapping-container .btn {
+  display: inline-block;
+  padding: 12px 15px;
+  margin-top: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.dlr-mapping-container .btn:hover {
+  background-color: #0056b3;
+}
+
+/* Form Fields */
+.dlr-mapping-container .dlr-form-group {
+  margin-bottom: 15px;
+}
+
+.dlr-mapping-container .dlr-form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Date Picker */
+.dlr-mapping-container .dlr-date-picker {
+  padding: 8px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dlr-mapping-container {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .dlr-mapping-container .table th,
+  .dlr-mapping-container .table td {
     padding: 10px;
   }
 }

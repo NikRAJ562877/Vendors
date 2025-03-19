@@ -1,84 +1,110 @@
-.admin-invoice-container {
-  max-width: 1000px;
-  width: 90%;
+/* Page Container */
+.admin-invoice-view {
+  width: 120%;
+  max-width: 1800px;
   margin: 20px auto;
-  padding: 25px;
-  background: #fff3cd; /* Light yellow background */
-  border-radius: 12px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-  text-align: center; /* Centers table */
+  padding: 20px;
+  background: #f8f8f8;
+  border-radius: 10px;
 }
 
-/* Centering Table */
-.admin-invoice-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px;
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.admin-invoice-table th, 
-.admin-invoice-table td {
-  padding: 14px;
-  text-align: center; /* Centers text */
-  border: 1px solid #ddd;
-  font-size: 14px;
-}
-
-.admin-invoice-table th {
-  background: #ff9800; /* Orange */
-  color: white;
-  text-transform: uppercase;
-}
-
-.admin-invoice-table tr:nth-child(even) {
-  background: #fff8e1; /* Lighter shade */
-}
-
-.admin-invoice-table tr:hover {
-  background: #ffe0b2; /* Light orange hover */
-  transition: background 0.2s ease-in-out;
-}
-
-/* Download Button Styling */
-.admin-invoice-container .admin-invoice-download-link {
-  display: inline-block;
-  padding: 8px 14px;
-  background: #d9534f;
-  color: white;
-  font-weight: bold;
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background 0.3s ease-in-out, transform 0.2s;
+/* Title */
+.admin-invoice-view h2 {
   text-align: center;
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
+  color: #4b0082;
 }
 
-/* Hover Effect: Makes it stand out */
-.admin-invoice-container .admin-invoice-download-link:hover {
-  background: #c9302c;
+/* Filters */
+.invoice-filters {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.invoice-filters label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  color: #333;
+}
+
+.invoice-filters input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+.invoice-filters input:focus {
+  border-color: #6a008a;
+}
+
+/* Table Styling (Scoped) */
+.admin-invoice-view table {
+  width: 99.5%;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Table Header (Scoped) */
+.admin-invoice-view table th {
+  background: #6a008a;
+  color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+/* Table Rows (Scoped) */
+.admin-invoice-view table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Alternating Row Colors */
+.admin-invoice-view tbody tr:nth-child(even) {
+  background: #f4f4f4;
+}
+
+/* Hover Effect */
+.admin-invoice-view tbody tr:hover {
+  background: #d1c4e9;
+  transition: 0.3s;
+}
+
+/* Center "No Invoices Found" Message */
+.admin-invoice-view table td[colspan="6"] {
+  text-align: center;
+  font-weight: bold;
+  color: #888;
+}
+
+/* Download Links */
+.admin-invoice-view table td a {
+  color: #6a008a;
   text-decoration: none;
-  transform: scale(1.1);
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  font-weight: bold;
 }
 
-.admin-invoice-container .admin-invoice-download-link:active {
-  transform: scale(0.95);
+.admin-invoice-view table td a:hover {
+  text-decoration: underline;
 }
 
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-  .admin-invoice-container {
-      width: 95%;
-      padding: 15px;
+/* Responsive */
+@media (max-width: 768px) {
+  .invoice-filters {
+    flex-direction: column;
+    align-items: center;
   }
 
-  .admin-invoice-table th, 
-  .admin-invoice-table td {
-      padding: 10px;
-      font-size: 12px;
+  .admin-invoice-view table {
+    font-size: 14px;
+  }
+
+  .admin-invoice-view table td,
+  .admin-invoice-view table th {
+    padding: 8px;
   }
 }

@@ -5,17 +5,24 @@ const Vendor = require('../models/Vendor');
 // POST /api/vendors
 router.post('/', async (req, res) => {
   try {
-    const { vendorId, password } = req.body; // role is not expected here; defaults to "vendor"
-    if (!vendorId || !password) {
-      return res.status(400).json({ error: 'Please provide vendorId and password' });
+    // ✅ Extract all required fields
+    const { name, email, vendorId, password } = req.body;
+
+    // ✅ Validate request body
+    if (!name || !email || !vendorId || !password) {
+      return res.status(400).json({ error: 'Please provide name, email, vendorId, and password' });
     }
+
+    // ✅ Check if vendor already exists
     const existingVendor = await Vendor.findOne({ vendorId });
     if (existingVendor) {
       return res.status(400).json({ error: 'Vendor already exists' });
     }
-    console.log("Creating vendor (plain text):", vendorId);
-    const newVendor = new Vendor({ vendorId, password, role: 'vendor' });
+
+    // ✅ Create and save new vendor
+    const newVendor = new Vendor({ name, email, vendorId, password, role: 'vendor' });
     await newVendor.save();
+
     res.json({ message: 'Vendor created successfully' });
   } catch (err) {
     res.status(500).json({ error: err.message });

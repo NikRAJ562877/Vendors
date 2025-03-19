@@ -9,7 +9,7 @@ const Login = ({ setUser }) => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // Clear any stale user info on mount
+  // Clear stale session data on mount
   useEffect(() => {
     sessionStorage.removeItem('user');
   }, []);
@@ -19,21 +19,22 @@ const Login = ({ setUser }) => {
     console.log("Submitting login:", { vendorId, password });
 
     try {
-      // The backend decides if it's an admin or vendor
       const res = await axios.post('http://localhost:5000/api/auth/login', { vendorId, password });
       console.log("Login response:", res.data);
 
       if (res.data.message === 'Login successful') {
-        // Save user info in sessionStorage
-        sessionStorage.setItem('user', JSON.stringify(res.data.user));
+        // ✅ Store vendor's name & email in sessionStorage (if available)
+        sessionStorage.setItem('user', JSON.stringify({
+          vendorId: res.data.user.vendorId,
+          name: res.data.user.name || '',   // ✅ Store Name
+          email: res.data.user.email || '', // ✅ Store Email
+          role: res.data.user.role
+        }));
+
         setUser(res.data.user);
 
         // Redirect based on user role
-        if (res.data.user.role === 'admin') {
-          navigate('/admin-dashboard');
-        } else {
-          navigate('/vendor-dashboard');
-        }
+        navigate(res.data.user.role === 'admin' ? '/admin-dashboard' : '/vendor-dashboard');
       }
     } catch (err) {
       console.error("Login error:", err.response?.data);
@@ -73,7 +74,6 @@ const Login = ({ setUser }) => {
 
         <button type="submit" className="login-button">Sign In</button>
 
-        {/* Optional: Link to admin signup if needed */}
         <p style={{ textAlign: 'center', marginTop: '1rem' }}>
           Need an admin account? <Link to="/admin-signup">Create one here</Link>
         </p>

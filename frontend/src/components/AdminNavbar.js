@@ -17,7 +17,13 @@ const AdminNavbar = () => {
           <Link to="/admin-dashboard">Admin Dashboard</Link>
         </div>
         <ul className="admin-navbar-links">
-          <li><Link to="/orders">Orders</Link></li>
+        <li className="dropdown">
+  <span className="dropdown-toggle">Orders</span>
+  <ul className="dropdown-menu">
+    <li><Link to="/orders">Manage Orders</Link></li>
+    <li><Link to="/order-history">Order History</Link></li>
+  </ul>
+</li>
           <li><Link to="/vendors">Vendor Management</Link></li>
           <li><Link to="/admin-invoices">View Invoices</Link></li>
           <li><Link to="/dlr-mapping">DLR Mapping</Link></li>

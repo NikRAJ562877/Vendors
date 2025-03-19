@@ -15,7 +15,7 @@ import ProductMasterScreen from './components/ProductMasterScreen';
 import AdminInvoiceView from './components/AdminInvoiceView';
 import VendorInvoiceUpload from './components/VendorInvoiceUpload';
 import Reports from './components/Reports';
- 
+import OrderHistory from './components/OrderHistory'; 
 import VendorReports from './components/VendorReports';
 
 // Admin layout: uses AdminNavbar and routes to admin pages
@@ -26,6 +26,7 @@ const AdminLayout = () => (
       <Routes>
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/order-history" element={<OrderHistory />} />
         <Route path="/vendors" element={<Vendors />} />
         <Route path="/vendor-orders" element={<VendorOrders />} />
         <Route path="/admin-invoices" element={<AdminInvoiceView />} />

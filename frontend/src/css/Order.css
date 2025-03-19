@@ -1,87 +1,18 @@
 .orders-container {
-  width: 90%;
-  max-width: 1200px;
+  width: calc(120% - 40px); /* Full width minus left & right padding */
   margin: 20px auto;
+  padding: 20px;
   font-family: Arial, sans-serif;
   background: #fff;
-  padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
-  text-align: center;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-/* Upload Section */
-.upload-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-input[type="file"] {
-  border: 1px solid #ccc;
-  padding: 6px;
-  border-radius: 5px;
-}
-
-/* Buttons */
-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
-  transition: background 0.2s ease-in-out;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-/* Specific Button Styles */
-.send-btn {
-  background-color: #28a745;
-}
-
-.send-btn:hover {
-  background-color: #218838;
-}
-
-.delete-btn {
-  background-color: #dc3545;
-}
-
-.delete-btn:hover {
-  background-color: #c82333;
-}
-
-/* Search Bar */
-.search-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.search-container input {
-  width: 50%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
 /* Table Styling */
 .table-container {
+  width: 100%;
+  max-height: calc(100vh - 150px); /* Adjust to fit screen height without interfering with navbar */
   overflow-x: auto;
-  max-height: 500px;
 }
 
 table {
@@ -106,33 +37,63 @@ th {
   font-size: 14px;
 }
 
-/* Aligning Buttons in Table */
-td {
-  vertical-align: middle;
-}
-
-td .action-buttons {
-  display: flex;
-  gap: 8px;
-}
-
-td button {
-  flex: 1;
-  min-width: 60px;
-}
-
 /* Responsive Design */
 @media screen and (max-width: 768px) {
+  .orders-container {
+    width: calc(100% - 20px); /* Less padding on smaller screens */
+  }
+
   .search-container input {
-      width: 80%;
+    width: 80%;
   }
 
   .upload-section {
-      flex-direction: column;
-      gap: 10px;
+    flex-direction: column;
+    gap: 10px;
   }
 
   .table-container {
-      overflow-x: scroll;
+    overflow-x: scroll;
   }
+}
+
+/* Button Styling */
+.btn {
+  display: inline-block;
+  padding: 10px 15px;
+  min-width: 80px; /* Ensure all buttons have the same width */
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+}
+
+/* Edit Button */
+.btn-edit {
+  background-color: #007bff;
+  color: white;
+  margin-right: 5px; /* Add spacing between buttons */
+}
+
+.btn-edit:hover {
+  background-color: #0056b3;
+}
+
+/* Delete Button */
+.btn-delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #b02a37;
+}
+
+/* Ensuring buttons inside table cells are aligned */
+td .btn {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
 }
