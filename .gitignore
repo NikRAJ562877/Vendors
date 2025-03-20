@@ -1,9 +1,30 @@
-backend/node_modules
+# Ignore node_modules directory
+node_modules/
 frontend/node_modules
-node_moduless
+backend/node_modules
 
+# Ignore log files
+*.log
+
+# Ignore build directories
+dist/
+build/
+
+# Ignore environment variable files
+.env*
 frontend/.env*
 backend/.env*
+
+# Ignore temporary files
+*.tmp
+*.swp
+
+# Ignore IDE specific files
+.vscode/
+.idea/
+*.iml
 .qodo
 
+# Ignore OS generated files
 .DS_Store
+Thumbs.db
