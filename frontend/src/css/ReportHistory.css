@@ -1,4 +1,4 @@
-.order-history-container {
+.report-history-container {
   width: 120%;
   padding: 50px;
   box-sizing: border-box;
@@ -30,34 +30,18 @@
   background-color: #d94d4d;
 }
 
-.order-history-table {
+.report-history-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
 }
 
-.order-history-table th,
-.order-history-table td {
+.report-history-table th,
+.report-history-table td {
   border: 1px solid #ddd;
-  padding: 10px;
-  text-align: left;
+  padding: 8px;
 }
 
-.order-history-table th {
+.report-history-table th {
   background-color: #f4f4f4;
-}
-
-.order-history-table tbody tr:hover {
-  background-color: #f9f9f9;
-}
-
-@media (max-width: 768px) {
-  .filter-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .filter-input {
-    width: 100%;
-  }
 }

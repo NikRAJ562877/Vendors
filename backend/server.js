@@ -28,6 +28,7 @@ const productRoutes = require('./routes/productMaster');
 const vendorInvoicesRoutes = require('./routes/vendorInvoices');  
 const adminInvoicesRoutes = require('./routes/adminInvoices');
 const reportRoutes = require('./routes/reportRoutes');
+const reportHistoryRoute = require("./routes/reporthistory");
 // Use routes
 app.use('/api/auth', authRoutes);
 app.use('/api/admins', adminsRoutes);
@@ -40,6 +41,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/vendor-invoices", vendorInvoicesRoutes);
 app.use("/api/admin-invoices", adminInvoicesRoutes);
 app.use("/api/reports", reportRoutes);
+app.use("/api/reporthistory", reportHistoryRoute);
 
 const PORT = process.env.PORT || 5000;
 console.log("✅ Routes Loaded:", app._router.stack.map(r => r.route && r.route.path));
