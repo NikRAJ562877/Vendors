@@ -1,0 +1,9 @@
+backend/node_modules
+frontend/node_modules
+node_moduless
+
+frontend/.env*
+backend/.env*
+.qodo
+
+.DS_Store
