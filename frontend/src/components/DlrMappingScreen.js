@@ -21,7 +21,7 @@ const DlrMappingScreen = () => {
   // Fetch vendors
   const fetchVendors = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/dlr/vendors");
+      const res = await axios.get("https://vendors-backend-uspo.onrender.com/api/dlr/vendors");
       setVendors(res.data.map(v => ({ value: v.vendorId, label: v.vendorId })));
     } catch (error) {
       console.error("Error fetching vendors:", error);
@@ -31,7 +31,7 @@ const DlrMappingScreen = () => {
   // Fetch unique DLR Codes
   const fetchDlrCodes = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/dlr/unmapped-dlr-codes");
+      const res = await axios.get("https://vendors-backend-uspo.onrender.com/api/dlr/unmapped-dlr-codes");
       console.log("🚀 API Response (Final Unmapped DLR Codes):", res.data); 
       setDlrCodeOptions(res.data.map(code => ({ value: code, label: code })));
       console.log("📌 Dropdown Options:", dlrCodeOptions);
@@ -44,7 +44,7 @@ const DlrMappingScreen = () => {
   // Fetch existing mappings
   const fetchMappings = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/dlr/mapping");
+      const res = await axios.get("https://vendors-backend-uspo.onrender.com/api/dlr/mapping");
       console.log("Mappings Data:", res.data);
       setMappings(res.data);
     } catch (error) {
@@ -60,7 +60,7 @@ const DlrMappingScreen = () => {
 
     try {
       if (editId) {
-        await axios.put(`http://localhost:5000/api/dlr/mappings/${editId}`, {
+        await axios.put(`https://vendors-backend-uspo.onrender.com/api/dlr/mappings/${editId}`, {
           vendorId: selectedVendor.value,
           dlrCodes: selectedDlrCodes.map(d => d.value),
           date: selectedDate,
@@ -68,7 +68,7 @@ const DlrMappingScreen = () => {
         alert("Mapping updated successfully!");
         fetchDlrCodes();  
       } else {
-        await axios.post("http://localhost:5000/api/dlr/map", {
+        await axios.post("https://vendors-backend-uspo.onrender.com/api/dlr/map", {
           vendorId: selectedVendor.value,
           dlrCodes: selectedDlrCodes.map(d => d.value),
           date: selectedDate,

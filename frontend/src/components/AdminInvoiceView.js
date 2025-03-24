@@ -17,7 +17,7 @@ const AdminInvoiceView = () => {
 
   const fetchInvoices = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin-invoices");
+      const res = await axios.get("https://vendors-backend-uspo.onrender.com/api/admin-invoices");
       setInvoices(res.data);
       setFilteredInvoices(res.data); // Initially, show all invoices
     } catch (error) {
@@ -115,13 +115,13 @@ const AdminInvoiceView = () => {
                   {Array.isArray(invoice.fileName) ? (
                     invoice.fileName.map((file, index) => (
                       <div key={index}>
-                        <a href={`http://localhost:5000/uploads/${file}`} download>
+                        <a href={`https://vendors-backend-uspo.onrender.com/uploads/${file}`} download>
                           📄 {file}
                         </a>
                       </div>
                     ))
                   ) : (
-                    <a href={`http://localhost:5000/uploads/${invoice.fileName}`} download>
+                    <a href={`https://vendors-backend-uspo.onrender.com/uploads/${invoice.fileName}`} download>
                       📄 {invoice.fileName}
                     </a>
                   )}

@@ -16,7 +16,7 @@ const OrderHistory = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/orderhistory");
+        const response = await axios.get("https://vendors-backend-uspo.onrender.com/api/orderhistory");
         setOrders(response.data);
         setFilteredOrders(response.data);
       } catch (err) {

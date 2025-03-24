@@ -25,7 +25,7 @@ const VendorReports = () => {
       const user = JSON.parse(sessionStorage.getItem("user"));
       const vendorId = user?.vendorId;
 
-      const response = await fetch(`http://localhost:5000/api/reports/getReportByVendor?vendorId=${vendorId}&month=${selectedMonth}`);
+      const response = await fetch(`https://vendors-backend-uspo.onrender.com/api/reports/getReportByVendor?vendorId=${vendorId}&month=${selectedMonth}`);
 
       if (!response.ok) {
         throw new Error(`❌ HTTP error! Status: ${response.status}`);

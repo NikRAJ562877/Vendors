@@ -119,7 +119,7 @@ const Orders = () => {
   
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/order/upload",
+        "https://vendors-backend-uspo.onrender.com/api/order/upload",
         { orders: formattedOrders }, // Wrap orders inside an object
         {
           headers: { "Content-Type": "application/json" },

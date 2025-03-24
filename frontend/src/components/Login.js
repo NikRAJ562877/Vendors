@@ -19,7 +19,7 @@ const Login = ({ setUser }) => {
     console.log("Submitting login:", { vendorId, password });
 
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', { vendorId, password });
+      const res = await axios.post('https://vendors-backend-uspo.onrender.com/api/auth/login', { vendorId, password });
       console.log("Login response:", res.data);
 
       if (res.data.message === 'Login successful') {

@@ -11,7 +11,7 @@ const OrderForm = () => {
   useEffect(() => {
     const fetchVendors = async () => {
         try {
-          const response = await fetch("http://localhost:5000/api/dlr/vendors");
+          const response = await fetch("https://vendors-backend-uspo.onrender.com/api/dlr/vendors");
           const data = await response.json(); // Use response.json()
           
           const filteredVendors = data
@@ -31,7 +31,7 @@ const OrderForm = () => {
 
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/products/getProducts");
+        const response = await fetch("https://vendors-backend-uspo.onrender.com/api/products/getProducts");
         const data = await response.json();
         setProducts(data);
       } catch (error) {
@@ -118,7 +118,7 @@ const OrderForm = () => {
     }
   
     try {
-      const response = await fetch("http://localhost:5000/api/reports", {
+      const response = await fetch("https://vendors-backend-uspo.onrender.com/api/reports", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ vendor: selectedVendor, reports: rows, finalTotal ,month: selectedMonth,}),

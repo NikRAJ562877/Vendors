@@ -20,7 +20,7 @@ const ProductMaster = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/products/add-product", {
+      const response = await axios.post("https://vendors-backend-uspo.onrender.com/api/products/add-product", {
         category,
         partNo,
         productName,

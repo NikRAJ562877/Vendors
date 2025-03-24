@@ -12,7 +12,7 @@ const Vendors = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/vendors', {
+      const res = await axios.post('https://vendors-backend-uspo.onrender.com/api/vendors', {
         vendorId,
         name,
         email,

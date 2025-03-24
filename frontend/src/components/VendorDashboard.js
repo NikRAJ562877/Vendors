@@ -22,7 +22,7 @@ const VendorDashboard = () => {
 
     try {
       setLoading(true);
-      const res = await axios.get(`http://localhost:5000/api/vendorOrders/orders/${vendorId}`, {
+      const res = await axios.get(`https://vendors-backend-uspo.onrender.com/api/vendorOrders/orders/${vendorId}`, {
         params: { from_date: fromDate, to_date: toDate },
       });
       setVendorOrders(res.data);

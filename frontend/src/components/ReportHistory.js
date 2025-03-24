@@ -13,7 +13,7 @@ const ReportHistory = () => {
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/reporthistory");
+        const response = await axios.get("https://vendors-backend-uspo.onrender.com/api/reporthistory");
         setReports(response.data);
         setFilteredReports(response.data);
       } catch (err) {

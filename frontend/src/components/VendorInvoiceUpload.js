@@ -65,7 +65,7 @@ const VendorInvoiceUpload = () => {
     }
   
     try {
-      const response = await axios.post("http://localhost:5000/api/vendor-invoices/upload", formData, {
+      const response = await axios.post("https://vendors-backend-uspo.onrender.com/api/vendor-invoices/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
   

@@ -13,7 +13,7 @@ const AdminSignup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/admins', { adminId, password });
+      const res = await axios.post('https://vendors-backend-uspo.onrender.com/api/admins', { adminId, password });
       setMessage(res.data.message);
       setError('');
       // Optionally navigate to login after a delay:

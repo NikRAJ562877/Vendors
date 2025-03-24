@@ -12,7 +12,7 @@ const VendorOrders = () => {
     if (user && user.role === "vendor") {
       const fetchVendorOrders = async () => {
         try {
-          const res = await axios.get(`http://localhost:5000/api/vendorOrders/${user.vendorId}`);
+          const res = await axios.get(`https://vendors-backend-uspo.onrender.com/api/vendorOrders/${user.vendorId}`);
           setVendorOrders(res.data);
         } catch (err) {
           console.error("Error fetching vendor orders:", err);
